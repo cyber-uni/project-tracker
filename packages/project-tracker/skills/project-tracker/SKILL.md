@@ -57,7 +57,7 @@ Describe each route as a level and category going to a tracker, and each move as
 
 ### Change
 
-Ask which levels or categories change, then run set-up steps 2 to 6 and 8 to 11 for them: list the trackers again, ask only about the levels and categories named, and ask the move policy only for pairs with no row yet. Write the whole routing back with every route and move the user did not touch unchanged: `reference create` never overwrites, so replace the file at the path of the `repo` entry in the `files` that `reference where project-tracker.routing` prints.
+Ask which levels or categories change, then run set-up steps 2 to 6 and 8 to 11 for them: list the trackers again, ask only about the levels and categories named, and ask the move policy only for pairs with no row yet. When the routing holds a pin `repobuddy/project-tracker.<rest>`, rewrite each one in `Routes` and `Moves` to `project-tracker/project-tracker.<rest>` as part of the change, and show those rewrites with the rest. A request to fix only the old pins needs no questions: rewrite them and show the result before writing. Write the whole routing back with every route and move the user did not touch unchanged: `reference create` never overwrites, so replace the file at the path of the `repo` entry in the `files` that `reference where project-tracker.routing` prints.
 
 ### Check
 
@@ -65,6 +65,7 @@ Write nothing. Walk every route: run `reference load <pin> --format json --metad
 
 - **missing**: status `missing`, code `reference-missing`.
 - **ambiguous**: status `ambiguous`, code `reference-ambiguous`; list the qualified names in `options`.
+- **old pin**: a pin `repobuddy/project-tracker.<rest>`, in `Routes` or `Moves`. Name it and its new pin, `project-tracker/project-tracker.<rest>`. Check the new pin for the other problems.
 - **unknown version**: neither `implements` nor `contract` in `metadata` gives a version `project-tracker.capabilities.interface` declares; name the tracker and the version.
 - **uncovered**: a level and category (any of issue, epic, initiative with bug, feature, task) that no route matches.
 - **stale**: a route that the signals in set-up step 6 no longer support. Re-read them and report: a route to a tracker whose `Detect` no longer resolves a scope for this repository (for Asana, the project link was removed), or a catch-all route to a tracker other than the host's while no other signal supports it, such as a pinned host tracker that no longer matches `origin`. Name the route and the signal that changed. Report it as a note only: the routing may be deliberate.
@@ -89,3 +90,4 @@ When there are none, say the routing is clean. With no routing, check reports th
 - [ ] With no routing, show and check named the host tracker in use, and check reported no problem when the host has one
 - [ ] No `Moves` row goes from a private tracker to a public one
 - [ ] Check wrote no file, and reported a stale route as a note
+- [ ] Check named each old `repobuddy/` pin and its new pin; change rewrote every one it found
