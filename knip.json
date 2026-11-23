@@ -2,7 +2,7 @@
 	"$schema": "https://unpkg.com/knip@6/schema.json",
 	"workspaces": {
 		"packages/project-tracker": {
-			"project": ["tests/**/*.ts"]
+			"project": ["src/**/*.ts", "tests/**/*.ts"]
 		},
 		"apps/web": {
 			"entry": ["src/**/*.{astro,ts,mdx}"],

@@ -3,7 +3,7 @@ title: epic
 description: Plan, revise, review, or hand off an epic and its child issues, or turn an issue or an initiative into an epic, on the tracker that holds epics.
 ---
 
-`epic` plans an epic, judges the plan against named criteria, files it with its child issues, changes, reviews, and hands off an epic that exists, and moves work into the epic level: an issue that grew, or an initiative that lost its metric. It files on the tracker your [`project-tracker`](/repobuddy/skills/project-tracker/) routing names for epics, or on the `origin` remote's tracker without one.
+`epic` plans an epic, judges the plan against named criteria, files it with its child issues, changes, reviews, and hands off an epic that exists, and moves work into the epic level: an issue that grew, or an initiative that lost its metric. It files on the tracker your [`project-tracker`](/project-tracker/skills/project-tracker/) routing names for epics, or on the `origin` remote's tracker without one.
 
 ## When to use
 
@@ -22,7 +22,7 @@ Run `/epic`, or ask in plain words. It has six modes: create, revise, review, ha
 
 ## What it does
 
-1. **Create** asks for the outcome and how you will know it is done before it names any child. It settles the plan one section at a time: key terms, research, scope and non-goals, open questions, children, blockers, executors and irreversible steps, and done-when. It judges each section against the planning criteria and fixes what fails before it shows you the plan. An unknown becomes a `Spike:` child, and an undecided design becomes a separate design issue. It searches for duplicates of the epic and each child, files everything after you confirm the whole plan, links the blockers, and syncs the epic's child list. Children are filed through [`issue`](/repobuddy/skills/issue/) when it is installed.
+1. **Create** asks for the outcome and how you will know it is done before it names any child. It settles the plan one section at a time: key terms, research, scope and non-goals, open questions, children, blockers, executors and irreversible steps, and done-when. It judges each section against the planning criteria and fixes what fails before it shows you the plan. An unknown becomes a `Spike:` child, and an undecided design becomes a separate design issue. It searches for duplicates of the epic and each child, files everything after you confirm the whole plan, links the blockers, and syncs the epic's child list. Children are filed through [`issue`](/project-tracker/skills/issue/) when it is installed.
 2. **Revise** changes an epic that exists: re-scope it, add, split, merge, or supersede a child, move a child to another repository, or fix its blockers. It shows every write in order, waits for a yes, and keeps the body's child list in step with the native sub-issues.
 3. **Review** judges an epic, filed or drafted, against the planning criteria EP1 to EP14, and reports each failure by ID with the line and the fix. It can also fix the plan and judge it again.
 4. **Handoff** checks that an epic can run unattended. Every child must name who does it, every step an agent cannot do must be a person's, every irreversible step must wait for a confirmation, and every blocker must be needed. It writes the run order (wave, child, executor, blocked by) into the body.

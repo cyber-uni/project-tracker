@@ -9,6 +9,7 @@
 	"repository": "https://github.com/cyber-uni/project-tracker.git",
 	"license": "MIT",
 	"keywords": ["project-tracker", "issues", "epics", "agent", "productivity", "project-management"],
+	"skills": "./skills/",
 	"category": "productivity",
 	"tags": ["project-tracker", "project-management"]
 }

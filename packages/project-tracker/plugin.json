@@ -13,6 +13,8 @@
 	"extensions": {
 		"org.cyberuni.universal-plugin": {
 			"vendors": ["claude-code", "cursor", "codex", "copilot-cli"],
+			"skills": "./skills/",
+			"dependencies": ["cyber-agentkit"],
 			"harnesses": {
 				"cursor": {
 					"category": "productivity",
@@ -24,6 +26,9 @@
 						"category": "productivity"
 					}
 				}
+			},
+			"scripts": {
+				"skills/epic/scripts/epic-plan.mjs": "src/skills/epic-plan.ts"
 			}
 		}
 	}

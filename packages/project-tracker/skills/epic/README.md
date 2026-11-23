@@ -43,5 +43,5 @@ Ask for it directly, or run `/epic` where slash commands are supported.
 ## Install
 
 ```sh
-npx skills add repobuddy/repobuddy --skill epic
+npx skills add cyber-uni/project-tracker --skill epic
 ```

@@ -2,6 +2,13 @@
 	"$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
 	"extends": ["@repobuddy/biome/recommended"],
 	"files": {
-		"includes": ["!**/dist", "!**/node_modules", "!**/.turbo", "!**/.astro", "!**/.claude/settings.local.json"]
+		"includes": [
+			"!**/dist",
+			"!**/node_modules",
+			"!**/.turbo",
+			"!**/.astro",
+			"!**/.claude/settings.local.json",
+			"!packages/project-tracker/skills/*/scripts/*.mjs"
+		]
 	}
 }

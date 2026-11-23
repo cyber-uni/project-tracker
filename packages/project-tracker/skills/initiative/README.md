@@ -36,5 +36,5 @@ Ask for it directly, or run `/initiative` where slash commands are supported.
 ## Install
 
 ```sh
-npx skills add repobuddy/repobuddy --skill initiative
+npx skills add cyber-uni/project-tracker --skill initiative
 ```

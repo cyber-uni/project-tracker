@@ -29,7 +29,7 @@ jira() { printf 'user = "%s:%s"\n' "$JIRA_EMAIL" "$JIRA_API_TOKEN" \
 
   ```md
   ---
-  extends: [repobuddy]
+  extends: [project-tracker]
   merge: combine
   ---
 
@@ -39,7 +39,7 @@ jira() { printf 'user = "%s:%s"\n' "$JIRA_EMAIL" "$JIRA_API_TOKEN" \
   - Project: ACME
   ```
 
-  When either bullet is missing, the scope is not resolved: ask the user for the site and the project key, use them for this run, and suggest recording them with `reference customize project-tracker.capabilities.jira --extends repobuddy`. Never guess a site from the repository's host or workspace.
+  When either bullet is missing, the scope is not resolved: ask the user for the site and the project key, use them for this run, and suggest recording them with `reference customize project-tracker.capabilities.jira --extends project-tracker`. Never guess a site from the repository's host or workspace.
 - Logged in: `JIRA_EMAIL` and `JIRA_API_TOKEN` are set, and `jira "https://<site>/rest/api/3/myself" | jq -r .accountId` prints an id. When a variable is unset or the call fails with `401`, tell the user to create an API token and export both variables, and stop. *(untested)*
 - The project exists and the user can see it: `jira "https://<site>/rest/api/3/project/<KEY>" | jq -r .key` prints `<KEY>`. *(untested)*
 

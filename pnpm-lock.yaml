@@ -224,6 +224,9 @@ importers:
       '@types/node':
         specifier: ^26.0.0
         version: 26.6.6
+      cyber-agentkit:
+        specifier: ^2.12.0
+        version: 2.12.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1989,6 +1992,16 @@ packages:
     hasBin: true
     peerDependencies:
       clibuilder: ^12.0.0
+    peerDependenciesMeta:
+      clibuilder:
+        optional: true
+
+  cyber-agentkit@2.12.0:
+    resolution: {integrity: sha512-gyuxdPVL7MAhKBlbr3u9zbsLJXUjq5NkGbRYUHYWr0ie7r99ci6aq8FSB/WTawI/uFvgpYZfEW/jmyPgAyOPFQ==}
+    engines: {node: '>=22'}
+    hasBin: true
+    peerDependencies:
+      clibuilder: ^12.2.0
     peerDependenciesMeta:
       clibuilder:
         optional: true
@@ -4590,6 +4603,8 @@ snapshots:
       css-tree: 2.2.1
 
   cyber-agentkit@1.2.0: {}
+
+  cyber-agentkit@2.12.0: {}
 
   debug@4.4.3:
     dependencies:

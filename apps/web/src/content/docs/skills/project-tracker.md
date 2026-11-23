@@ -3,7 +3,7 @@ title: project-tracker
 description: Record which tracker holds each level and category of work, and check the routing still resolves.
 ---
 
-`project-tracker` writes down which issue tracker holds what, so [`issue`](/repobuddy/skills/issue/) files where your team decided. It stores the answer as the `project-tracker.routing` reference in `.agents/references/`. When all work goes to the tracker of the `origin` host (GitHub or GitLab), you need no routing: that tracker is the default.
+`project-tracker` writes down which issue tracker holds what, so [`issue`](/project-tracker/skills/issue/) files where your team decided. It stores the answer as the `project-tracker.routing` reference in `.agents/references/`. When all work goes to the tracker of the `origin` host (GitHub or GitLab), you need no routing: that tracker is the default.
 
 ## When to use
 
@@ -26,11 +26,11 @@ Run `/project-tracker`, or ask in plain words. It has four modes: set up, show, 
 
 ## Jira
 
-repobuddy ships `project-tracker.capabilities.jira` for Jira Cloud, beside GitHub and GitLab. Jira is never picked from the host: set-up lists it, and work goes there only when you route it, which is how a Bitbucket repository tracks work. Record the site and project key with an override in `.agents/references/project-tracker.capabilities.jira.md`:
+project-tracker ships `project-tracker.capabilities.jira` for Jira Cloud, beside GitHub and GitLab. Jira is never picked from the host: set-up lists it, and work goes there only when you route it, which is how a Bitbucket repository tracks work. Record the site and project key with an override in `.agents/references/project-tracker.capabilities.jira.md`:
 
 ```md
 ---
-extends: [repobuddy]
+extends: [project-tracker]
 merge: combine
 ---
 
@@ -51,14 +51,14 @@ Each user exports `JIRA_EMAIL` and an Atlassian API token as `JIRA_API_TOKEN`. T
 
 | Level | Category | Tracker |
 |---|---|---|
-| issue | bug | repobuddy/project-tracker.capabilities.github |
+| issue | bug | project-tracker/project-tracker.capabilities.github |
 | any | any | acme-tools/project-tracker.capabilities.acme |
 
 ## Moves
 
 | From | To | Source after the move |
 |---|---|---|
-| repobuddy/project-tracker.capabilities.github | acme-tools/project-tracker.capabilities.acme | mirror |
+| project-tracker/project-tracker.capabilities.github | acme-tools/project-tracker.capabilities.acme | mirror |
 ```
 
 A pair with no `Moves` row means `moved`. The formats are defined in `project-tracker.capabilities.interface`.

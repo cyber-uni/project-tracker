@@ -2,7 +2,6 @@ import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { afterAll, describe, expect, it } from '@jest/globals'
 import {
 	checkReferences,
 	loadReference,
@@ -10,15 +9,16 @@ import {
 	referenceImplementations,
 	referenceLayers,
 } from 'cyber-agentkit'
+import { afterAll, describe, expect, it } from 'vitest'
 
 // The shipped references as cyber-agentkit 2 resolves them: the plugin's `references/` and each
 // skill's defaults, in an empty repository with no harness, so nothing installed on the machine joins.
 const pluginRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const skillsDir = join(pluginRoot, 'skills')
-const root = mkdtempSync(join(tmpdir(), 'repobuddy-references-'))
-const home = mkdtempSync(join(tmpdir(), 'repobuddy-references-home-'))
+const root = mkdtempSync(join(tmpdir(), 'project-tracker-references-'))
+const home = mkdtempSync(join(tmpdir(), 'project-tracker-references-home-'))
 const base = { root, home, env: {} }
-const plugin = { name: 'repobuddy', root: pluginRoot }
+const plugin = { name: 'project-tracker', root: pluginRoot }
 
 afterAll(() => {
 	rmSync(root, { recursive: true, force: true })
@@ -78,9 +78,9 @@ describe('project-tracker.capabilities.interface', () => {
 		expect(
 			referenceImplementations('project-tracker.capabilities', layers).implementations.map(({ pin }) => pin),
 		).toEqual([
-			'repobuddy/project-tracker.capabilities.github',
-			'repobuddy/project-tracker.capabilities.gitlab',
-			'repobuddy/project-tracker.capabilities.jira',
+			'project-tracker/project-tracker.capabilities.github',
+			'project-tracker/project-tracker.capabilities.gitlab',
+			'project-tracker/project-tracker.capabilities.jira',
 		])
 	})
 
@@ -133,7 +133,7 @@ describe('the work references, renamed from repobuddy.work-*', () => {
 
 describe('reference migrate', () => {
 	it('plans the cyber-agentkit 1 overrides of an upgrading repository, renaming project-tracker.contract by the interface aliases', async () => {
-		const repo = mkdtempSync(join(tmpdir(), 'repobuddy-migrate-'))
+		const repo = mkdtempSync(join(tmpdir(), 'project-tracker-migrate-'))
 		try {
 			mkdirSync(join(repo, '.git'))
 			const dir = join(repo, '.agents', 'references')
@@ -160,7 +160,7 @@ describe('reference migrate', () => {
 					tier: 'repo',
 					form: 'renamed',
 					to: 'project-tracker.capabilities.interface.md',
-					by: 'the aliases of plugin repobuddy',
+					by: 'the aliases of plugin project-tracker',
 				},
 				{
 					name: 'project-tracker.levels',

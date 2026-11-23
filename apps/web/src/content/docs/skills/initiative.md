@@ -3,7 +3,7 @@ title: initiative
 description: Set an initiative's goal and metric and file its epics as shells, or promote an epic by creating the initiative above it.
 ---
 
-`initiative` sets up an initiative: a goal, one metric with a baseline and a target, and the epics that move it, filed as shells. A shell epic has a title, an owner, and a one-line outcome; you break it down later with [`epic`](/repobuddy/skills/epic/). It files on the tracker your [`project-tracker`](/repobuddy/skills/project-tracker/) routing names for initiatives, or on the `origin` remote's tracker without one.
+`initiative` sets up an initiative: a goal, one metric with a baseline and a target, and the epics that move it, filed as shells. A shell epic has a title, an owner, and a one-line outcome; you break it down later with [`epic`](/project-tracker/skills/epic/). It files on the tracker your [`project-tracker`](/project-tracker/skills/project-tracker/) routing names for initiatives, or on the `origin` remote's tracker without one.
 
 ## When to use
 

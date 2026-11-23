@@ -9,7 +9,7 @@ interface:
     - {heading: Tracker, required: true, holds: "The pin of the tracker to file in, and the destination within it"}
     - {heading: Before filing, holds: "Steps the reporter's agent runs before the summary"}
     - {heading: Criteria, holds: "What must be true before the issue is created"}
-    - {heading: Template, holds: "Sections added to repobuddy's template, per category"}
+    - {heading: Template, holds: "Sections added to project-tracker's template, per category"}
 ---
 ## Version
 

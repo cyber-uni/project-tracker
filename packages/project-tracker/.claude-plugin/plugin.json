@@ -8,5 +8,7 @@
 	"homepage": "https://cyber-uni.github.io/project-tracker/",
 	"repository": "https://github.com/cyber-uni/project-tracker.git",
 	"license": "MIT",
-	"keywords": ["project-tracker", "issues", "epics", "agent", "productivity", "project-management"]
+	"keywords": ["project-tracker", "issues", "epics", "agent", "productivity", "project-management"],
+	"skills": "./skills/",
+	"dependencies": ["cyber-agentkit"]
 }

@@ -49,5 +49,5 @@ Ask for it directly, or run `/issue` where slash commands are supported. Add `--
 ## Install
 
 ```sh
-npx skills add repobuddy/repobuddy --skill issue
+npx skills add cyber-uni/project-tracker --skill issue
 ```
