@@ -1,0 +1,30 @@
+name: release
+on:
+  push:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  code:
+    uses: cyber-uni/.github/.github/workflows/pnpm-verify.yml@v1
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      os: '["ubuntu-latest"]'
+      playwright-browsers: ''
+
+  # Secretless: GITHUB_TOKEN for the version PR, npm trusted publishing (OIDC) to publish.
+  # The trusted publisher registered at npmjs.com names this file, release.yml. Keep the filename.
+  release:
+    # Off until the first publish: with nothing on npm yet, `changeset publish` would try to publish
+    # 0.0.0 on every push to main. repobuddy/repobuddy#1014 registers the npm trusted publisher
+    # and removes this line.
+    if: false
+    needs: code
+    uses: cyber-uni/.github/.github/workflows/pnpm-release.yml@v1
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write

@@ -1,0 +1,16 @@
+{
+	"name": "project-tracker",
+	"version": "0.0.0",
+	"description": "Agent skills to file issues and plan epics and initiatives on your project tracker",
+	"author": {
+		"name": "unional"
+	},
+	"homepage": "https://cyber-uni.github.io/project-tracker/",
+	"repository": "https://github.com/cyber-uni/project-tracker.git",
+	"license": "MIT",
+	"keywords": ["project-tracker", "issues", "epics", "agent", "productivity", "project-management"],
+	"interface": {
+		"displayName": "Project Tracker",
+		"category": "productivity"
+	}
+}
