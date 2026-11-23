@@ -1,0 +1,522 @@
+@frozen
+Feature: issue — file one bug, feature, or task on the tracker
+
+  The skill gathers the details, searches for an existing issue, shows a summary, creates the
+  issue through the tracker's capabilities reference, and reports the URL. It waits for the user's
+  yes before creating unless the user owns the tracker. It files at the issue level only and never
+  creates a duplicate.
+
+  # ── Use cases 1–4 — file an item ──
+
+  @trigger
+  Scenario Outline: engages to file one item of tracked work, not to comment or plan
+    Given a developer in a repo where to-question and community-post are also installed
+    When the developer says "<query>"
+    Then issue being selected is <should_trigger>
+
+    Examples:
+      | query                                                            | should_trigger |
+      | file a bug about the webhook retries dropping the last attempt   | yes            |
+      | open a feature request for dark mode                             | yes            |
+      | create a ticket to migrate the build to tsdown                   | yes            |
+      | add a task to track the node 26 upgrade                          | yes            |
+      | report this crash upstream on github                             | yes            |
+      | help me word this question for the jira ticket I'll paste        | no             |
+      | write up a slack ping, I'm blocked on the staging role           | no             |
+      | break this project into an epic with child issues                | no             |
+      | close issue 12 as not planned                                    | no             |
+      | set up which tracker holds bugs and which holds epics            | no             |
+
+  @behavior
+  Scenario: files an ordinary defect instead of treating it as a vulnerability
+    Given the user reports that the cache returns stale entries after a restart
+    And the report describes no way to read or change data the user is not allowed to
+    When issue classifies the request
+    Then it continues to gather details and search
+    And it does not point to a private security channel
+
+  @behavior
+  Scenario Outline: maps each category to the tracker's type on a repo with issue types
+    Given the origin remote is github.com
+    And the repo's issueTypes are Bug, Feature, and Task
+    And the user confirms a <category> issue
+    When issue creates it
+    Then it passes --type "<type>"
+
+    Examples:
+      | category | type    |
+      | bug      | Bug     |
+      | feature  | Feature |
+      | task     | Task    |
+
+  @behavior
+  Scenario: collects environment details for a bug from the machine
+    Given the user reports a bug in a package with a Node toolchain
+    When issue gathers details
+    Then it reads OS, runtime, and package versions itself
+    And it does not ask the user for them
+
+  @behavior
+  Scenario: searches at least twice and shows each hit before creating
+    Given the user says "file a bug: the cache returns stale entries after a restart"
+    And the origin remote is github.com
+    And the first search returns two issues the user does not call the same
+    When issue runs its duplicate check
+    Then it searches again with the core noun and verb instead of the full title
+    And it lists each hit with number, title, state, and URL
+
+  @behavior
+  Scenario: adds no level suggestion to an item that fits one issue
+    Given the user asks for one issue about a retry limit that one person can ship in one pull request
+    When issue shows its confirmation
+    Then the confirmation contains no suggestion to file at another level
+
+  @behavior
+  Scenario: files directly on a tracker the user owns
+    Given the origin remote is github.com
+    And gh repo view reports viewerPermission ADMIN for the repo
+    And no search hit is the user's issue
+    And the user asks for one issue about a retry limit that one person can ship in one pull request
+    When issue shows the summary
+    Then it creates the issue in the same turn, without waiting for a reply
+    And it reports the new issue's URL
+
+  @behavior
+  Scenario: asks before filing on a tracker the user does not own
+    Given the origin remote is github.com
+    And gh repo view reports viewerPermission WRITE for the repo
+    And no search hit is the user's issue
+    When issue shows the summary
+    Then it asks the user to confirm
+    And it runs no create command before the user answers
+
+  @behavior
+  Scenario Outline: asks before filing when the tracker's ownership is unknown
+    Given <ownership_state>
+    And no search hit is the user's issue
+    When issue shows the summary
+    Then it asks the user to confirm
+    And it runs no create command before the user answers
+
+    Examples:
+      | ownership_state                                                                              |
+      | the origin remote is github.com and gh repo view --json viewerPermission exits 1              |
+      | a routing pins a capabilities reference whose contract is 1 and that has no Ownership section |
+
+  @behavior
+  Scenario: creates only after the summary is confirmed
+    Given the user does not own the tracker
+    And no search hit is the user's issue
+    And issue has shown the summary
+    When the user says "yes, file it"
+    Then issue creates the issue
+    And it reports the new issue's URL
+
+  @behavior
+  Scenario: falls back to labels on a repo without issue types
+    Given the origin remote is github.com
+    And the repo's issueTypes is null
+    And the repo has the labels bug and enhancement
+    When issue creates a confirmed feature
+    Then it passes --label enhancement
+    And it does not pass --type
+
+  @quality @rubric
+  Scenario: writes a task body whose end state and scope can be checked
+    Given the user confirms a task "migrate the build to tsdown" in a public repo
+    And the user says the build runs on webpack today and CI must stay under ten minutes
+    When issue writes the body
+    Then the body is graded:
+      """
+      dimensions:
+        end_state_checkability: 3  # a reader can tell from the body alone whether the task is
+                                   # finished, by a stated check rather than "the migration is done"
+        scope_statement: 3         # the body names what moves from what to what, and what stays
+                                   # untouched, so two readers would not scope it differently
+      threshold: 5
+      """
+    And the body scores at or above the threshold
+
+  @behavior
+  Scenario: keeps a commit SHA and an internal tracker address out of a public issue body
+    Given the repo is public
+    And the project has no project-tracker.routing
+    And the user confirms a task "migrate the build to tsdown"
+    And the user's request cites commit 9f2c1ab and an internal tracker item at tracker.internal.example/ENG-41
+    When issue writes the body
+    Then the body does not contain 9f2c1ab
+    And the body does not contain tracker.internal.example
+
+  @behavior
+  Scenario: leaves bug-only sections out of a task body
+    Given the user confirms a task "migrate the build to tsdown"
+    When issue writes the body
+    Then the body has no Steps to Reproduce heading
+    And the body has no Expected Behavior heading
+
+  @behavior
+  Scenario: ships a Validate section whose mechanical assertions pass
+    Given the issue skill as shipped in packages/project-tracker/skills/issue
+    When its SKILL.md is read
+    Then it has a Validate section
+    And the description in its frontmatter is at most 120 characters
+    And its frontmatter name equals its directory name
+
+  @behavior
+  Scenario: writes the body from the template reference, not from the skill
+    Given the user confirms a task "migrate the build to tsdown"
+    And the project has .agents/references/project-tracker.template.task.md with merge: patch
+    And that file redefines only the Done when section as "- [ ] release notes merged"
+    And that file adds a Rollout section reading "Ship behind the tsdown flag first"
+    When issue writes the body of the task
+    Then the body has a Done when section whose item is "release notes merged"
+    And the body has a Rollout section that reads "Ship behind the tsdown flag first"
+    And the body has the default Description and Out of scope sections
+
+  @behavior
+  Scenario: follows a project override of the level checks
+    Given the project overrides the Issue level in project-tracker.levels with all four of its parts
+    And the Too big part of that override reads "- It names more than one package."
+    And the default Too big section would only note, not suggest, for this request
+    When the user asks for one issue that names @repobuddy/jest and @repobuddy/vitest
+    Then issue's confirmation says the item looks too big for one issue
+    And it suggests an epic
+
+  @behavior
+  Scenario Outline: stops on a capabilities reference whose contract version it does not know
+    Given the origin remote is github.com
+    And the installed project-tracker.capabilities.github has <contract_state>
+    And project-tracker.capabilities.interface declares version 1
+    When issue loads the capabilities reference
+    Then it names the tracker and says its version is not known
+    And it runs no duplicate search and no create command
+
+    Examples:
+      | contract_state                                       |
+      | contract: 2 in frontmatter                           |
+      | no contract in frontmatter                           |
+      | implements: project-tracker.capabilities@2, no contract |
+
+  @behavior
+  Scenario: lists the capabilities references and loads the one that matches the host
+    Given the origin remote is github.com
+    And the project has no project-tracker.routing
+    And exactly one reference named project-tracker.capabilities.github is installed
+    And a fuzzier search hit named project-tracker.contract is also returned
+    And a prefix search hit named project-tracker.capabilities.interface is also returned
+    When issue resolves the tracker
+    Then it loads project-tracker.capabilities.github
+    And it does not load project-tracker.contract
+    And it does not take project-tracker.capabilities.interface as a tracker
+
+  @behavior
+  Scenario: reads the bundled GitHub reference when the reference command cannot run
+    Given the origin remote is github.com
+    And the project has no .agents/references/project-tracker.routing.md file
+    And the reference command exits with an error
+    When issue resolves the tracker
+    Then it reads references/project-tracker.capabilities.github.default.md in its own folder
+
+  @behavior
+  Scenario Outline: reads the bundled GitHub reference when the reference search finds no match
+    Given the origin remote is github.com
+    And the project has no project-tracker.routing
+    And the reference search runs without error and returns <search_result>
+    When issue resolves the tracker
+    Then it reads references/project-tracker.capabilities.github.default.md in its own folder
+    And it loads no reference from the search result
+
+    Examples:
+      | search_result                                                  |
+      | no names                                                       |
+      | only project-tracker.contract, a fuzzier match                 |
+      | only project-tracker.capabilities.interface, the interface     |
+
+  @behavior
+  Scenario: writes a bug body with steps, expected, and actual behavior
+    Given the user confirms a bug "cache returns stale entries after a restart"
+    And the user says a restart then a read returns the pre-restart value instead of the new one
+    When issue writes the body
+    Then the body has a Steps to Reproduce section
+    And the body has an Expected Behavior section
+    And the body has an Actual Behavior section
+
+  @behavior
+  Scenario: writes a feature body with the need and use cases, and no bug sections
+    Given the user confirms a feature "export the report as CSV"
+    When issue writes the body
+    Then the body has a Use Cases section
+    And the body has no Steps to Reproduce heading
+
+  @behavior
+  Scenario: omits the label when the repo does not have it
+    Given the origin remote is github.com
+    And the repo's issueTypes is null
+    And the repo has no label named enhancement
+    When issue creates a confirmed feature
+    Then the create command has no --label option
+    And the create command has no --type option
+
+  @behavior
+  Scenario: files on GitLab through the bundled GitLab reference
+    Given the project has no project-tracker.routing
+    And the origin remote is gitlab.com
+    And no GitLab capabilities reference is installed
+    And the project has the label bug
+    When the user confirms a bug
+    Then issue reads references/project-tracker.capabilities.gitlab.default.md in its own folder
+    And it creates the issue through glab api with the label bug
+
+  # ── Use case 5 — file to the routed tracker ──
+
+  @behavior
+  Scenario: files to the routed tracker instead of the origin host's
+    Given the origin remote is github.com
+    And the project has a project-tracker.routing with the route "issue, bug, prov-b/project-tracker.capabilities.beta"
+    And prov-b ships a project-tracker.capabilities.beta that declares contract: 1 and whose Create section runs "beta-cli add"
+    When the user confirms a bug
+    Then issue loads prov-b/project-tracker.capabilities.beta
+    And it runs "beta-cli add" to create the item
+    And it runs no gh issue create command
+
+  @behavior
+  Scenario: asks for the category before choosing a route
+    Given the project has a project-tracker.routing with the routes "issue, bug, prov-b/project-tracker.capabilities.beta" and "any, any, prov-a/project-tracker.capabilities.alpha", in that order
+    And the user says "file this" and gives no word that says bug, feature, or task
+    When issue starts
+    Then it asks which category the item is before it loads any capabilities reference
+    And after the user answers bug it loads prov-b/project-tracker.capabilities.beta
+
+  @behavior
+  Scenario: takes the first matching route over a later catch-all
+    Given the origin remote is gitlab.com
+    And the project has a project-tracker.routing with the routes "issue, bug, prov-b/project-tracker.capabilities.beta" and "any, any, prov-a/project-tracker.capabilities.alpha", in that order
+    When the user confirms a bug
+    Then issue loads prov-b/project-tracker.capabilities.beta
+    And it does not load prov-a/project-tracker.capabilities.alpha
+
+  @behavior
+  Scenario: falls through to the catch-all when no earlier row matches
+    Given the origin remote is gitlab.com
+    And the project has a project-tracker.routing with the routes "issue, bug, prov-b/project-tracker.capabilities.beta" and "any, any, prov-a/project-tracker.capabilities.alpha", in that order
+    When the user confirms a feature
+    Then issue loads prov-a/project-tracker.capabilities.alpha
+    And it does not load prov-b/project-tracker.capabilities.beta
+
+  @behavior
+  Scenario: stops when no route matches the category
+    Given the project has a project-tracker.routing with only the route "issue, bug, prov-a/project-tracker.capabilities.alpha"
+    When the user asks to file a feature
+    Then issue says no route matches issue with category feature
+    And it suggests running project-tracker change
+    And it runs no search and no create command
+
+  @behavior
+  Scenario Outline: stops when a route's pin does not resolve to one reference
+    Given the project has a project-tracker.routing whose bug route pins <pin>
+    And reference load for that pin exits 0 with <error>
+    When the user asks to file a bug
+    Then issue names the pin and says it <problem>
+    And it suggests running project-tracker check
+    And it runs no search and no create command
+
+    Examples:
+      | pin                                         | error                                   | problem                              |
+      | prov-gone/project-tracker.capabilities.alpha | status missing, code reference-missing  | resolves to no reference             |
+      | project-tracker.capabilities.alpha           | status ambiguous, code reference-ambiguous | is held by more than one plugin      |
+
+  @behavior
+  Scenario: stops when a routing exists and the reference command cannot run
+    Given the project has the file .agents/references/project-tracker.routing.md with the route "any, any, prov-a/project-tracker.capabilities.alpha"
+    And the reference command exits with an error
+    When the user asks to file a bug
+    Then issue names the pin prov-a/project-tracker.capabilities.alpha and says the reference command cannot run
+    And it runs no search and no create command
+
+  @behavior
+  Scenario: offers no routing in the report when the host's tracker was used
+    Given the project has no project-tracker.routing
+    And the origin remote is github.com
+    When issue creates a confirmed issue and reports its URL
+    Then the report does not offer to save GitHub as the tracker
+    And the report does not mention project-tracker
+
+  @behavior
+  Scenario: adds no suggestion to the report when a routing chose the tracker
+    Given the project has a project-tracker.routing with the route "any, any, prov-a/project-tracker.capabilities.alpha"
+    When issue creates a confirmed issue and reports its URL
+    Then the report does not mention project-tracker
+
+  @behavior
+  Scenario: keeps private-tracker details out of an item filed on a public routed tracker
+    Given the repo is private
+    And the routing sends tasks to a tracker whose Visibility is public
+    And the user confirms a task "migrate the build to tsdown"
+    And the user's request cites the item tracker.internal.example/ENG-41 on a private tracker
+    When issue writes the body
+    Then the body does not contain tracker.internal.example
+
+  @behavior
+  Scenario: keeps a private-tracker reference in an item filed on a private routed tracker
+    Given the repo is public
+    And the routing sends tasks to a tracker whose Visibility is private
+    And the user confirms a task "migrate the build to tsdown"
+    And the user's request cites the item tracker.internal.example/ENG-41 on a private tracker
+    When issue writes the body
+    Then the body contains tracker.internal.example/ENG-41
+
+  # ── Extensions 5–14 — the paths that do not file ──
+
+  @behavior
+  Scenario: stops with an upgrade message when gh is older than 2.98.0
+    Given the origin remote is github.com
+    And gh --version reports 2.97.0
+    When issue resolves the tracker
+    Then it tells the user to upgrade gh
+    And it runs no create command
+
+  @behavior
+  Scenario: asks which capabilities reference to use when two match
+    Given the origin remote is github.com
+    And two plugins each ship project-tracker.capabilities.github
+    When issue resolves the tracker
+    Then it lists both qualified names and asks which to use
+    And it loads neither before the user answers
+
+  @behavior
+  Scenario: asks for the category when the request does not give one
+    Given the user says "file this" and gives no word that says bug, feature, or task
+    When issue gathers the details
+    Then it asks which category the item is
+    And it runs no search before the user answers
+
+  @behavior
+  Scenario: stops at a confirmed duplicate
+    Given a search hit the user confirms is the same issue
+    When issue continues
+    Then it gives the existing issue's URL
+    And it creates nothing
+
+  @behavior
+  Scenario: still asks about a duplicate hit on a tracker the user owns
+    Given the origin remote is github.com
+    And gh repo view reports viewerPermission ADMIN for the repo
+    And the search returns an open issue titled "Cache serves stale entries after restart"
+    When issue runs its duplicate check
+    Then it shows the hit and asks whether it is the same issue
+    And it runs no create command before the user answers
+
+  @behavior
+  Scenario: asks about an oversized item even on a tracker the user owns
+    Given the origin remote is github.com
+    And gh repo view reports viewerPermission ADMIN for the repo
+    And the user asks for one issue covering five independently shippable features
+    When issue shows the summary
+    Then it says the item looks too big for one issue and suggests an epic
+    And it runs no create command before the user answers
+
+  @behavior
+  Scenario: creates nothing when the user declines
+    Given the user does not own the tracker
+    And no search hit is the user's issue
+    And issue has shown the summary
+    When the user says "no, hold off"
+    Then issue runs no create command
+    And it reports that nothing was filed
+
+  @behavior
+  Scenario: does not file a vulnerability publicly
+    Given the user describes an unauthenticated remote code execution in the package
+    When issue classifies the request
+    Then it points to the repository's private security channel
+    And it runs no create command
+
+  @behavior
+  Scenario: refuses a host with no tracker set up
+    Given the project has no project-tracker.routing
+    And the origin remote is bitbucket.org
+    When issue resolves the tracker
+    Then it says no tracker is set up for that host
+    And it suggests project-tracker set-up
+    And it runs no create command
+
+  @behavior
+  Scenario: suggests another level for an oversized item and still files at issue level
+    Given the user asks for one issue covering five independently shippable features
+    When issue shows its confirmation
+    Then it says the item looks too big for one issue and suggests an epic
+    And it files one issue if the user does not change the level
+
+  @behavior
+  Scenario: suggests not tracking an item too small for an issue
+    Given the user asks for an issue to fix a one-character typo in a code comment
+    When issue shows its confirmation
+    Then it says the item looks too small to track as an issue
+    And it files one issue if the user does not change the level
+
+  @behavior
+  Scenario: does not retry a failed create that left an issue behind
+    Given the user has confirmed a task "migrate the build to tsdown"
+    And gh issue create exits 1 with 'type "Task" not found' because the repo renamed its types after they were read
+    And the newest issues on the repo include one titled "migrate the build to tsdown" created a moment ago
+    When issue continues
+    Then it runs no second create command
+    And it gives that issue's URL as the new issue
+
+  @behavior
+  Scenario: lists the newest issues after a failed create that left nothing behind
+    Given the user has confirmed a task "migrate the build to tsdown"
+    And gh issue create exits 1 with "could not add label"
+    And the newest issues on the repo include none titled "migrate the build to tsdown"
+    When issue continues
+    Then it lists the newest issues before it runs any second create command
+    And it tells the user nothing was filed
+
+  # ── Use case 4 — a sibling skill offers filing ──
+
+  @behavior
+  Scenario: searches for duplicates before filing a finding a sibling skill hands over
+    Given agent-readiness finished and offers to file its finding "no CONTRIBUTING.md in the repo"
+    And the user accepts the offer
+    And the origin remote is github.com
+    And the first search returns two issues the user does not call the same
+    When issue takes the finding as the description
+    Then it runs at least two searches with different keywords before any create command
+    And it lists each hit with number, title, state, and URL
+
+  @behavior
+  Scenario: stops at a confirmed duplicate of a finding a sibling skill hands over
+    Given agent-readiness offers to file its finding "no CONTRIBUTING.md in the repo" and the user accepts
+    And a search hit titled "Add a CONTRIBUTING guide" that the user confirms is the same issue
+    When issue continues
+    Then it gives that issue's URL
+    And it runs no create command
+
+  @behavior
+  Scenario Outline: creates a finding a sibling skill hands over only when the user confirms the summary
+    Given agent-readiness offers to file its finding "no CONTRIBUTING.md in the repo" and the user accepts
+    And the user does not own the tracker
+    And no search hit is the user's issue
+    And issue has shown the summary
+    When the user says "<answer>"
+    Then issue <create_outcome>
+
+    Examples:
+      | answer          | create_outcome                              |
+      | yes, file it    | creates the issue and reports its URL       |
+      | no, hold off    | runs no create command                      |
+
+  @behavior
+  Scenario: files an ordinary finding from a sibling skill instead of treating it as a vulnerability
+    Given agent-readiness offers to file its finding "no CONTRIBUTING.md in the repo" and the user accepts
+    And the finding describes no way to read or change data the user is not allowed to
+    When issue classifies the request
+    Then it continues to gather details and search
+    And it does not point to a private security channel
+
+  @behavior
+  Scenario: does not file a security finding from a sibling skill publicly
+    Given agent-readiness offers to file its finding "the deploy workflow prints the npm token to the public log" and the user accepts
+    When issue classifies the request
+    Then it points to the repository's private security channel
+    And it runs no create command
