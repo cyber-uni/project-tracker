@@ -6,9 +6,11 @@
 `cyber-project-tracker`. It ships skills only. The skills file issues and plan epics and
 initiatives on the tracker a project routes each kind of work to, such as GitHub Issues or Jira.
 
-The plugin ships no skills yet. The tracker suite (`project-tracker`, `issue`, `epic`, and
-`initiative`) moves here from [repobuddy](https://github.com/repobuddy/repobuddy) in
-[repobuddy#1013](https://github.com/repobuddy/repobuddy/issues/1013).
+The plugin ships the tracker suite: the `project-tracker`, `issue`, `epic`, and `initiative`
+skills, the `project-tracker.*` and `research.method` references in `references/`, and the `epic`
+skill's `scripts/epic-plan.mjs`, built from `src/skills/epic-plan.ts`. It moved here from
+[repobuddy](https://github.com/repobuddy/repobuddy) in
+[repobuddy#1013](https://github.com/repobuddy/repobuddy/issues/1013), with its history.
 
 | Where | What |
 | --- | --- |
@@ -24,6 +26,9 @@ package's `files`, or it will not reach consumers.
 | --- | --- |
 | `plugin.json` | yes, the canonical manifest ([Agent Plugins 1.0.0](https://github.com/agentplugins/agent-plugins-spec)) |
 | `skills/<name>/SKILL.md` and files beside it | yes |
+| `references/` | yes, the plugin's references, which skills load by name through `cyber-agentkit` |
+| `src/` | yes, script sources and the reference tests; not shipped |
+| `skills/epic/scripts/epic-plan.mjs` | derived by `pnpm plugin:build` from `src/skills/epic-plan.ts` |
 | `.claude-plugin/`, `.cursor-plugin/`, `.codex-plugin/` | derived by `pnpm plugin:build`, never hand-edited |
 
 After editing `plugin.json` or `skills/`, run `pnpm plugin:build` and commit the derived files with

@@ -24,6 +24,7 @@
 	],
 	"files": [
 		"skills",
+		"references",
 		"plugin.json",
 		".claude-plugin",
 		".cursor-plugin",
@@ -38,6 +39,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^26.0.0",
+		"cyber-agentkit": "^2.12.0",
 		"typescript": "^7.0.2",
 		"vitest": "^5.0.3",
 		"yaml": "^2.9.1"

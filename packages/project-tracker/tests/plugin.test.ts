@@ -5,7 +5,6 @@ import { parse } from 'yaml'
 
 const packageRoot = path.resolve(import.meta.dirname, '..')
 const skillsDir = path.join(packageRoot, 'skills')
-// The scaffold ships no skills yet; the tracker suite moves in from repobuddy.
 const skills = existsSync(skillsDir) ? readdirSync(skillsDir) : []
 
 function readJson(file: string): Record<string, unknown> {
@@ -48,7 +47,7 @@ describe('the shipped plugin', () => {
 
 	it('publishes everything the plugin needs', () => {
 		const { files } = readJson('package.json') as { files: string[] }
-		for (const entry of ['skills', 'plugin.json', '.claude-plugin', '.cursor-plugin', '.codex-plugin']) {
+		for (const entry of ['skills', 'references', 'plugin.json', '.claude-plugin', '.cursor-plugin', '.codex-plugin']) {
 			expect(files).toContain(entry)
 		}
 	})

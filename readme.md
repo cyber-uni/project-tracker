@@ -5,8 +5,9 @@ Issues or Jira. Published to npm as `cyber-project-tracker`.
 
 Documentation: <https://cyber-uni.github.io/project-tracker/>
 
-The plugin ships no skills yet. The tracker suite (`project-tracker`, `issue`, `epic`, and
-`initiative`) moves here from [repobuddy](https://github.com/repobuddy/repobuddy).
+It ships four skills: `project-tracker` records which tracker holds each kind of work, `issue`
+files a bug, feature, or task, `epic` plans an epic and its child issues, and `initiative` sets up
+an initiative and its epics. They moved here from [repobuddy](https://github.com/repobuddy/repobuddy).
 
 ## Install
 

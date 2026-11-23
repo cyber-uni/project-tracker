@@ -34,6 +34,15 @@ export default defineConfig({
 						{ label: 'Getting Started', slug: 'getting-started' },
 					],
 				},
+				{
+					label: 'Skills',
+					items: [
+						{ label: 'project-tracker', slug: 'skills/project-tracker' },
+						{ label: 'issue', slug: 'skills/issue' },
+						{ label: 'epic', slug: 'skills/epic' },
+						{ label: 'initiative', slug: 'skills/initiative' },
+					],
+				},
 			],
 			editLink: {
 				baseUrl: 'https://github.com/cyber-uni/project-tracker/edit/main/apps/web/',
