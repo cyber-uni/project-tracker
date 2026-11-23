@@ -128,7 +128,7 @@ Shape Up variant for the note: before suggesting an epic, offer "cut scope to th
 3. Would the user accept "done" only when a measure moves, not when work ships?
 4. Would it need more than about 5 independently shippable issues in more than one distinct outcome?
 
-An agent should treat the repository scope (packages/buddy/GOALS.md) as a signal: initiatives about the repo's own tooling are in scope, product-level goals may belong in a tracker or planning package.
+An agent should treat the repository scope ([repobuddy's `packages/buddy/GOALS.md`](https://github.com/repobuddy/repobuddy/blob/main/packages/buddy/GOALS.md)) as a signal: initiatives about the repo's own tooling are in scope, product-level goals may belong in a tracker or planning package.
 
 ### Too small (suggest not filing separately, or folding)
 

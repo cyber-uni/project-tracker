@@ -156,7 +156,7 @@ Feature: issue — file one bug, feature, or task on the tracker
 
   @behavior
   Scenario: ships a Validate section whose mechanical assertions pass
-    Given the issue skill as shipped in packages/buddy/skills/issue
+    Given the issue skill as shipped in packages/project-tracker/skills/issue
     When its SKILL.md is read
     Then it has a Validate section
     And the description in its frontmatter is at most 120 characters

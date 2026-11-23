@@ -1,5 +1,5 @@
 ---
-subject: packages/buddy/skills/initiative/SKILL.md
+subject: packages/project-tracker/skills/initiative/SKILL.md
 eval:
   layers: [trigger, behavior]
   judge:
@@ -12,7 +12,7 @@ eval:
 
 # initiative — measurement policy
 
-The subject is `packages/buddy/skills/initiative/SKILL.md` together with its `references/` copies: the
+The subject is `packages/project-tracker/skills/initiative/SKILL.md` together with its `references/` copies: the
 GitHub and GitLab capabilities references (whose `Retype` and `Levels held` the judge follows),
 `project-tracker.capabilities.interface`, `project-tracker.levels`, and the initiative and epic templates. The Asana
 scenario assumes `project-tracker.capabilities.asana` from `cyber-asana` as published; the fixture
@@ -27,5 +27,5 @@ a real initiative has been filed with the skill; none is written until then.
 ## Known weaknesses
 
 The suite was written without a cold spec-judge round (no judge agents in the run that wrote it). The
-real-initiative input is a dry walk of #801, not a filed initiative: no command that writes ran. The
+real-initiative input is a dry walk of repobuddy/repobuddy#801, not a filed initiative: no command that writes ran. The
 GitLab rows are untested, as their reference says.

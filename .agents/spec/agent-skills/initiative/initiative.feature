@@ -109,7 +109,7 @@ Feature: initiative — set a goal and its metric, name epics as shells, and pro
 
   @behavior
   Scenario: ships a Validate section whose mechanical assertions pass
-    Given the initiative skill as shipped in packages/buddy/skills/initiative
+    Given the initiative skill as shipped in packages/project-tracker/skills/initiative
     When its SKILL.md is read
     Then it has a Validate section
     And the description in its frontmatter is at most 120 characters

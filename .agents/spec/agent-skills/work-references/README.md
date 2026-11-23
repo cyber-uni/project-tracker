@@ -11,7 +11,7 @@ concept:
 
 The references the level skills (`issue` today; `epic` and `initiative` later) load by name instead
 of carrying the text themselves, so a project can change one section without editing a skill. They
-ship in `packages/buddy/references/`, the plugin tier cyber-agentkit resolves
+ship in `packages/project-tracker/references/`, the plugin tier cyber-agentkit resolves
 ([ADR 0003](../../design/decisions/0003-split-file-issue-by-level.md), decision 5).
 
 ## Subject
@@ -30,7 +30,7 @@ copy). In a template, a `##` is one section, so an override restates just that o
 `project-tracker.levels` a `##` is a whole level: an override of one level restates all four of its
 `###` parts (Is, Done when, Too big, Too small), or the level loses the ones it leaves out.
 
-**One canonical copy.** The file in `packages/buddy/references/` is the source, and its frontmatter
+**One canonical copy.** The file in `packages/project-tracker/references/` is the source, and its frontmatter
 says `extends: [default]`. A skill also carries a copy of each reference its `SKILL.md` loads with
 the `reference` skill, as its default `references/<name>.default.md`, because Skills CLI installs copy
 only a skill's folder. cyber-agentkit adds that default below the plugin's file, and the `reference` skill

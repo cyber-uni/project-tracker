@@ -15,7 +15,7 @@ agent files it as a big epic with no metric, guesses a baseline or a target, bre
 issues before any of them has started, and, promoting an epic, relabels it so the epic's issues pose as
 the initiative's epics.
 
-`initiative` is a **routing skill** ([ADR 0002](../../design/decisions/0002-routing-skills-are-named-noun-first.md))
+`initiative` is a **routing skill** ([ADR 0002](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0002-routing-skills-are-named-noun-first.md))
 that owns entry into the initiative level ([ADR 0003](../../design/decisions/0003-split-file-issue-by-level.md),
 decision 2). It has two modes:
 
@@ -52,7 +52,7 @@ the initiative is linked in its body; a public initiative names a private shell 
 internally and takes none of its text.
 
 **Placement is open** (ADR 0003, Scope). A goal across teams and quarters sits at the edge of
-[`packages/buddy/GOALS.md`](../../../../packages/buddy/GOALS.md) ("a skill covers one repository chore").
+[repobuddy's `packages/buddy/GOALS.md`](https://github.com/repobuddy/repobuddy/blob/main/packages/buddy/GOALS.md) ("a skill covers one repository chore").
 The skill ships in `repobuddy` for now: what it does is file and link tracked items on the repository's
 tracker, with the same routing, references, and guards as `issue` and `epic`. It records the metric and
 does not measure it or report progress; that work would belong in a planning package. The owner decides.
@@ -66,14 +66,14 @@ does not measure it or report progress; that work would belong in a planning pac
 
 ### Input from a real initiative
 
-Epic #801 ("file tracked work at any level, on any tracker") was walked through Promote, dry, with no
-write. The level check found that #801 meets none of the epic level's `Too big`: no number, one owner,
-days rather than quarters. So #801 is not an initiative, and the skill says so and asks; the honest
-answer is that #801 would be the first shell under one. Asked for a goal, the nearest is "agents in a
+Epic repobuddy/repobuddy#801 ("file tracked work at any level, on any tracker") was walked through Promote, dry, with no
+write. The level check found that repobuddy/repobuddy#801 meets none of the epic level's `Too big`: no number, one owner,
+days rather than quarters. So repobuddy/repobuddy#801 is not an initiative, and the skill says so and asks; the honest
+answer is that repobuddy/repobuddy#801 would be the first shell under one. Asked for a goal, the nearest is "agents in a
 repository that uses repobuddy file tracked work at the right level on the team's tracker without a
 person correcting it". Its measure (the share of agent-filed items not re-labelled, moved, or re-filed
 within a week) has no baseline, so the plan opens with `Measure the baseline for …`, and the target is
-the owner's to name. The aim check asks whether #801 plus the follow-ups its non-goals list (Linear,
+the owner's to name. The aim check asks whether repobuddy/repobuddy#801 plus the follow-ups its non-goals list (Linear,
 Jira, Discussions capabilities) reach that target; nobody can say yet. GitHub has no `initiative` label
 in this repository, so the confirmation carries the create-label line. Taken here: the `unmeasured`
 baseline shell, the aim check as a question rather than a gate, and the new-parent Promote. The run
@@ -154,6 +154,6 @@ graph TD
 | `F` | the user says the epics do not reach the target | `flags epics that do not reach the target` |
 | `R0 → R1` | initiatives routed to Asana | `stops on a tracker that holds no initiative` |
 | `N → N1` | the plan shown and declined | `writes nothing when the user declines the plan` |
-| `P → P0 → D`, `W` | epic #801 on GitHub with seven children | `promotes an epic by creating a new parent above it` |
+| `P → P0 → D`, `W` | epic repobuddy/repobuddy#801 on GitHub with seven children | `promotes an epic by creating a new parent above it` |
 | `P0 → P1` | the source is a plain issue | `stops promoting an item that is not an epic` |
 | `—` (artifact) | the shipped skill | `ships a Validate section whose mechanical assertions pass` |

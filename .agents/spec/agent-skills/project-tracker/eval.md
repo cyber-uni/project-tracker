@@ -1,5 +1,5 @@
 ---
-subject: packages/buddy/skills/project-tracker/SKILL.md
+subject: packages/project-tracker/skills/project-tracker/SKILL.md
 eval:
   layers: [trigger, behavior]
   judge:
@@ -12,7 +12,7 @@ eval:
 
 # project-tracker — measurement policy
 
-The subject is `packages/buddy/skills/project-tracker/SKILL.md` together with its `references/` copy of
+The subject is `packages/project-tracker/skills/project-tracker/SKILL.md` together with its `references/` copy of
 `project-tracker.capabilities.interface`, which holds the routing table formats the skill writes and reads.
 
 **Trigger and behavior carry signal; quality does not.** Trigger: the skill sits beside `issue` and

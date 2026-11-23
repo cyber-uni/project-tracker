@@ -15,7 +15,7 @@ what, and must not guess. Without a recorded answer, they file everything on the
 `origin` host (GitHub or GitLab): the default, right whenever the team keeps all its work there. A
 host with no tracker, Bitbucket included, has no default.
 
-`project-tracker` records the answer. It is a **routing skill** ([ADR 0002](../../design/decisions/0002-routing-skills-are-named-noun-first.md))
+`project-tracker` records the answer. It is a **routing skill** ([ADR 0002](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0002-routing-skills-are-named-noun-first.md))
 with four modes: **set up**, **show**, **change**, and **check** the project's **routing**, the
 reference `project-tracker.routing` in the project's `.agents/references/` folder
 ([ADR 0003](../../design/decisions/0003-split-file-issue-by-level.md), decisions 4, 5, 8, 9).

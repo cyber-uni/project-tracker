@@ -15,7 +15,7 @@ parent that is done when they are. Left alone, an agent names children before th
 bakes guesses into them, files a duplicate of an issue that already exists, and, when it changes an
 item's level, closes or drops children nobody listed.
 
-`epic` is a **routing skill** ([ADR 0002](../../design/decisions/0002-routing-skills-are-named-noun-first.md))
+`epic` is a **routing skill** ([ADR 0002](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0002-routing-skills-are-named-noun-first.md))
 that owns entry into the epic level ([ADR 0003](../../design/decisions/0003-split-file-issue-by-level.md),
 decision 2). It has three modes:
 
@@ -69,7 +69,7 @@ linked in its body. Children are filed through `issue` when it is installed.
 **This child's capabilities.** GitHub's `Retype` ships here, in place by label, with the body rewrite
 for issue → epic and the detach for initiative → epic spelled out. Asana's ships in `cyber-asana`
 (`project-tracker.capabilities.asana`, cyberuni/cyber-asana#266): in place by subtasks for issue ↔ epic,
-initiative unsupported. GitLab's ships here too (#806): in place by the `epic` label on Free, a new
+initiative unsupported. GitLab's ships here too (repobuddy/repobuddy#806): in place by the `epic` label on Free, a new
 group epic by `/promote_to Epic` on Premium and Ultimate, initiative on Ultimate only; its calls are
 untested on a real instance.
 
@@ -79,11 +79,11 @@ untested on a real instance.
 - Filing one issue (`issue`), setting up the routing (`project-tracker`), commenting (`to-question`).
 - A standalone move of an epic that is already at the epic level, because the routing changed.
 - Editing an epic's children after it is filed (re-parenting, re-ordering, closing).
-- Asana's capabilities text; it lives in `cyber-asana`. GitLab's is specified by #806.
+- Asana's capabilities text; it lives in `cyber-asana`. GitLab's is specified by repobuddy/repobuddy#806.
 
 ### Input from the hand-run epic
 
-The `issue`, `epic`, `initiative` epic (#801) was planned by hand the way this skill runs it; its
+The `issue`, `epic`, `initiative` epic (repobuddy/repobuddy#801) was planned by hand the way this skill runs it; its
 [plan](../../../plans/issue-epic-initiative.plan.md) records the steps. Taken here: outcome and
 done-when before any child (note 1); audit for gaps, then spike the unknowns (2, 3); order by the
 owner's priority (8); try one non-default setup against the breakdown (11); filing reads types and

@@ -8,7 +8,7 @@ kind of tracked work, on any tracker, with teams able to adjust the details.
 
 1. **Kind has two axes.** **Category** says why the work exists: bug, feature, task. **Level** says
    how much structure it needs: issue, epic, initiative. A feature can be issue-sized or epic-sized.
-2. **One routing skill per level**, named noun-first ([0002](./0002-routing-skills-are-named-noun-first.md)).
+2. **One routing skill per level**, named noun-first ([0002](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0002-routing-skills-are-named-noun-first.md)).
    Each owns entry into its level:
 
    | Skill | Creates | Promotes into it | Demotes into it | Creates children through |
@@ -74,7 +74,7 @@ kind of tracked work, on any tracker, with teams able to adjust the details.
    where it went. Where the reference is silent, the skill uses its default: create at the new level,
    link, and close the old item after confirmation.
 8. **A `project-tracker` skill sets the trackers up.** It is a routing skill
-   ([0002](./0002-routing-skills-are-named-noun-first.md)) with modes to set up, show, change, and
+   ([0002](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0002-routing-skills-are-named-noun-first.md)) with modes to set up, show, change, and
    check the routing. Set-up lists the installed capabilities, asks which tracker holds each level
    and category, and writes `project-tracker.routing` with each choice pinned to its plugin. A
    team may use GitHub issues for bugs, GitHub Discussions for feature requests, and a private
@@ -133,7 +133,7 @@ The skills file **tracked work that comes out of this repository**: a record wit
 to done) and an owner. The repository picks the default tracker and supplies the context. Out of
 scope: a tax return (a submission to an authority) and a marketing report (a document, which could
 be attached to an issue). `initiative` sits at the edge of
-[`packages/buddy/GOALS.md`](../../../../packages/buddy/GOALS.md), since a goal across teams and
+[repobuddy's `packages/buddy/GOALS.md`](https://github.com/repobuddy/repobuddy/blob/main/packages/buddy/GOALS.md), since a goal across teams and
 quarters is not a repository chore. It is built last, once there is a real initiative to test it on,
 and may live in a tracker or planning package instead.
 
@@ -158,8 +158,8 @@ and may live in a tracker or planning package instead.
   `match: prefix`, alongside fuzzier matches the skill must drop; a `reference list <glob>` in
   agent-harness would make that exact.
 - Renaming `file-issue` breaks anyone who invokes it by name; the changeset says so.
-- [`posting-skill-boundaries.md`](../posting-skill-boundaries.md), the glossary, and
-  [0001](./0001-to-question-owns-composition-not-delivery.md) name `file-issue` as the owner of the
+- [`posting-skill-boundaries.md`](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/posting-skill-boundaries.md), the glossary, and
+  [0001](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/design/decisions/0001-to-question-owns-composition-not-delivery.md) name `file-issue` as the owner of the
   create path. The first two are updated when the rename ships; 0001 stays as written.
 - `issue` only *suggests* a different level when an item looks too big or too small. Promotion and
   demotion run in the skill of the level being entered, because they mean breaking work down or

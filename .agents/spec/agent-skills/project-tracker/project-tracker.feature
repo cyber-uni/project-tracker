@@ -277,7 +277,7 @@ Feature: project-tracker — set up, show, change, and check which tracker holds
 
   @behavior
   Scenario: ships a Validate section whose mechanical assertions pass
-    Given the project-tracker skill as shipped in packages/buddy/skills/project-tracker
+    Given the project-tracker skill as shipped in packages/project-tracker/skills/project-tracker
     When its SKILL.md is read
     Then it has a Validate section
     And the description in its frontmatter is at most 120 characters

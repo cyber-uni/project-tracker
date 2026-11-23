@@ -212,7 +212,7 @@ Feature: epic — plan an epic and its children, and move work into the epic lev
 
   @behavior
   Scenario: ships a Validate section whose mechanical assertions pass
-    Given the epic skill as shipped in packages/buddy/skills/epic
+    Given the epic skill as shipped in packages/project-tracker/skills/epic
     When its SKILL.md is read
     Then it has a Validate section
     And the description in its frontmatter is at most 120 characters

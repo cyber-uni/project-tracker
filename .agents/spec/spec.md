@@ -1,35 +1,20 @@
 ---
 status: draft
 project-path: .
-name: repobuddy-repo
+name: project-tracker
 ---
 
-# repobuddy-repo — project spec
+# project-tracker — project spec
 
-The repo-root project: the **skill repo** half of `repobuddy/repobuddy`. It ships **public agent
-skills** to consumers (`npx skills add repobuddy/repobuddy`) and carries the repo harness that
-builds, checks, and releases everything in the monorepo.
+The repo-root project of `cyber-uni/project-tracker`. It ships the tracker suite, the `issue`,
+`epic`, `initiative`, and `project-tracker` skills and the references they load, as the
+`project-tracker` plugin in `packages/project-tracker`.
 
 ## Scope — what this spec governs
 
-This spec governs the **repo-root project only**: `skills/`, and the repo-level tooling around it.
-It is named `repobuddy-repo` rather than `repobuddy`, because **`repobuddy` is already taken** — it
-is the npm package at `packages/buddy`, which has its own spec (below). Two specs answering to one
-name would break name-to-spec resolution.
-
-It does **not** govern the published npm packages under `packages/` or the Astro site under
-`website/`. Each is a **separate project** with its own spec — one spec per project is the rule.
-Their absence here is correct, not a coverage hole.
-
-| Project | Spec | Status |
-|---|---|---|
-| `repobuddy` (the CLI, `packages/buddy`) | [`packages/buddy/.agents/spec/`](../../packages/buddy/.agents/spec/spec.md) | exists |
-| `@repobuddy/jest`, `/vitest`, `/biome`, `/typescript`, `/test` | — | not yet backfilled |
-| `website/` | — | not yet backfilled |
-
-Note that sibling projects here **colocate** their spec at `<project>/.agents/spec/` rather than
-hoisting to `.agents/specs/<name>/`. Colocation is the default, and an npm package can keep its spec
-out of the published tarball through `files` / `.npmignore`, so there is no reason to hoist.
+This spec governs the tracker suite's skills and references. The specs moved here from
+[repobuddy's project spec](https://github.com/repobuddy/repobuddy/blob/main/.agents/spec/spec.md),
+which keeps the specs of the skills that stay in repobuddy.
 
 ## Organization — capability-first
 
@@ -66,7 +51,6 @@ frontmatter — refresh it with the `concept-index` skill rather than editing it
 | Capability | What it does |
 |---|---|
 | [agent-skills](./agent-skills/README.md) | Ship installable agent skills to consumers |
-| [tooling](./tooling/README.md) | Build, check, and release the monorepo |
 
 <!-- BEGIN generated: by-concept (project-spec/concept-index) -->
 
@@ -76,10 +60,9 @@ frontmatter — refresh it with the `concept-index` skill rather than editing it
 
 | Concept | Facets |
 |---|---|
-| `blast-radius` | `agent-skills/merge-dep-prs/` (behavior) |
-| `content-composition` | `agent-skills/to-question/` (behavior) |
-| `human-handoff` | `agent-skills/to-question/` (behavior) |
-| `merge-gating` | `agent-skills/merge-dep-prs/` (behavior) |
-| `platform-rendering` | `agent-skills/to-question/` (behavior) |
+| `duplicate-prevention` | `agent-skills/issue/` (behavior) |
+| `level-change` | `agent-skills/epic/` (behavior), `agent-skills/initiative/` (behavior) |
+| `tracked-work` | `agent-skills/epic/` (behavior), `agent-skills/initiative/` (behavior), `agent-skills/issue/` (behavior), `agent-skills/project-tracker/` (behavior), `agent-skills/work-references/` (reference) |
+| `tracker-capabilities` | `agent-skills/epic/` (behavior), `agent-skills/initiative/` (behavior), `agent-skills/issue/` (behavior), `agent-skills/project-tracker/` (behavior), `agent-skills/work-references/` (reference) |
 
 <!-- END generated: by-concept -->

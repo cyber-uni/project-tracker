@@ -1,5 +1,5 @@
 ---
-subject: packages/buddy/skills/epic/SKILL.md
+subject: packages/project-tracker/skills/epic/SKILL.md
 eval:
   layers: [trigger, behavior]
   judge:
@@ -12,7 +12,7 @@ eval:
 
 # epic — measurement policy
 
-The subject is `packages/buddy/skills/epic/SKILL.md` together with its `references/` copies: the GitHub
+The subject is `packages/project-tracker/skills/epic/SKILL.md` together with its `references/` copies: the GitHub
 capabilities reference (whose `Retype` the judge follows), `project-tracker.capabilities.interface`,
 `project-tracker.levels`, and the epic and initiative templates. The Asana scenarios assume
 `project-tracker.capabilities.asana` from `cyber-asana` as published; the fixture supplies it.
@@ -27,7 +27,7 @@ with the skill; none is written until then.
 
 The suite was written without a cold spec-judge round (no judge agents in the run that wrote it). The
 GitHub retype steps were not run against a live repository in this child; the cross-repository attach
-was proven by hand when #801 was filed. Scenarios that assert nothing was written rely on the narrated
+was proven by hand when repobuddy/repobuddy#801 was filed. Scenarios that assert nothing was written rely on the narrated
 transcript, as in `project-tracker`. The ownership scenarios do too: `files the plan without waiting on a tracker the user owns` asserts
 that no confirmation turn happened, which a transcript shows only as the absence of a question. The
 GitHub `viewerPermission` answers were tried by hand; GitLab's `Ownership` is untested.

@@ -1,6 +1,6 @@
 ---
 cr-ref: github-801
-target: packages/buddy/skills/file-issue
+target: packages/project-tracker/skills/issue
 status: in-progress
 todos:
   - content: Record the decisions — ADR 0002 (noun-first routing names), ADR 0003 (split by level), glossary terms
@@ -24,8 +24,8 @@ todos:
 # Epic: file tracked work at any level, on any tracker
 
 Filed as [repobuddy/repobuddy#801](https://github.com/repobuddy/repobuddy/issues/801). Children, in
-order: #802, #803, #804, [cyberuni/cyber-asana#266](https://github.com/cyberuni/cyber-asana/issues/266),
-#805, #806, #807. Related, not blocking:
+order: repobuddy/repobuddy#802, repobuddy/repobuddy#803, repobuddy/repobuddy#804, [cyberuni/cyber-asana#266](https://github.com/cyberuni/cyber-asana/issues/266),
+repobuddy/repobuddy#805, repobuddy/repobuddy#806, repobuddy/repobuddy#807. Related, not blocking:
 [cyberuni/agent-harness#79](https://github.com/cyberuni/agent-harness/issues/79) (list references by
 name pattern).
 
@@ -203,7 +203,7 @@ What the `epic` skill must do, observed in this session:
     a child in another repo is created there and attached with `--add-sub-issue`; read back
     `subIssuesSummary` to confirm the count. A body written before a step ran can go stale: the
     epic body claimed cross-owner nesting was impossible and was edited after the attach worked.
-13. **Running a child (#802) by hand.** What the first child taught the `epic` skill about handing a
+13. **Running a child (repobuddy/repobuddy#802) by hand.** What the first child taught the `epic` skill about handing a
     child to a pod:
     - *Base branch moves.* The child started from the design branch because the design was not on
       trunk. Merging that PR left the child with nothing to rebase but its base; the skill states the
@@ -214,7 +214,7 @@ What the `epic` skill must do, observed in this session:
     - *Shipping a reference needs a channel.* The `files` list in `package.json` carried only
       `skills/`, so a plugin-tier `references/` folder would not have been published. Skills CLI
       installs copy only skill folders, so the capabilities reference also ships a copy inside the
-      skill. That copy is a known duplicate; #803, which moves references out, should dedupe it.
+      skill. That copy is a known duplicate; repobuddy/repobuddy#803, which moves references out, should dedupe it.
     - *A rename sweeps by grep, then by reading.* A global replace of the old name left sentences
       like "where issue and community-post are installed"; the diff review caught the ones that
       needed backticks. Historical records (ADRs, spike reports, this plan) keep the old name.
@@ -228,7 +228,7 @@ What the `epic` skill must do, observed in this session:
     without issue types creates the issue and then fails, so the skill checks for a stray before any
     retry. A judge that reads instructions cannot find this; only the live call did. The `epic` skill
     must do the same after any failed create in a batch, or it files duplicates of its own children.
-15. **Running a child (#803) by hand.** What the second child taught the `epic` skill:
+15. **Running a child (repobuddy/repobuddy#803) by hand.** What the second child taught the `epic` skill:
     - *Test the override path before writing the references.* A scratch project declaring the package
       as a dependency, with one `merge-sections` file in `.agents/references/`, showed that a plugin
       copy is read from a package the project declares, that a redefined section replaces the base,
@@ -238,7 +238,7 @@ What the `epic` skill must do, observed in this session:
       `reference list 'project-tracker.capabilities.*'` because its `dist` predated the change. A brief
       that depends on a sibling repository's unreleased feature should say which build to use.
     - *A shipped duplicate needs a generator, not a checklist line.* The first child guarded two copies
-      with a Validate assertion a human had to run. #803 made the plugin copy canonical and wrote
+      with a Validate assertion a human had to run. repobuddy/repobuddy#803 made the plugin copy canonical and wrote
       `scripts/sync-skill-references.mjs`, which copies the references each `SKILL.md` names in
       backticks and fails `verify` when one is stale. The `epic` skill should ask of any duplicate it
       files a child for: what regenerates it?
@@ -252,8 +252,8 @@ What the `epic` skill must do, observed in this session:
     - *The conductor's governance declaration is checked.* The first spec-judge round blocked at pre-flight because the declared set left out the oracle, builder, and architect bars. Load every resolved-actor bar before declaring, not only the entry set.
     - *Judges caught what self-review missed.* A map row homed the "could not add label" case on the type path (`O`) when that failure belongs to the label path (`P`); a Given said "listed afterwards", presupposing the list its own Then asserts.
     - *A spec Then can outrun the skill's words.* "Report the stray's URL" had no sentence in `SKILL.md` or the reference; the Then was reworded to trace to the Report step. Left for a later skill edit: say in step 5 that a found stray is reported and not retried, and that step 4's "finds nothing" means after the fuzzier names are dropped.
-    - *`audit validate` with no path only scans `.agents/skills`.* Pass `--path packages/buddy/skills/<skill>` to cover a shipped skill.
-17. **Running a child (#804) by hand, the `project-tracker` skill.** What the third child taught the `epic` skill:
+    - *`audit validate` with no path only scans `.agents/skills`.* Pass `--path packages/project-tracker/skills/<skill>` to cover a shipped skill.
+17. **Running a child (repobuddy/repobuddy#804) by hand, the `project-tracker` skill.** What the third child taught the `epic` skill:
     - *A routing needs the category before it can route.* The first graph asked for the category after
       the tracker was chosen; a routed project cannot choose without it. The spec judge found it in
       round 3. The `epic` skill asks for the level's inputs before it resolves a tracker, and a

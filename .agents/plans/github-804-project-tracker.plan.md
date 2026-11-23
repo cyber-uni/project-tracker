@@ -1,6 +1,6 @@
 ---
 cr-ref: github-804
-target: packages/buddy/skills/project-tracker
+target: packages/project-tracker/skills/project-tracker
 status: active
 todos:
   - content: Spec node for project-tracker, issue routing revision, contract Routing section; spec gate
@@ -19,7 +19,7 @@ todos:
 
 # github-804: project-tracker routing
 
-CR: [repobuddy/repobuddy#804](https://github.com/repobuddy/repobuddy/issues/804), child of epic #801.
+CR: [repobuddy/repobuddy#804](https://github.com/repobuddy/repobuddy/issues/804), child of epic repobuddy/repobuddy#801.
 Design: [ADR 0003](../spec/design/decisions/0003-split-file-issue-by-level.md) decisions 4, 5, 8, 9.
 
 ## NEXT
